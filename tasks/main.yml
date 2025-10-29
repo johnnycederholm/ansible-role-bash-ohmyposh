@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Download Oh My Posh install script
+  ansible.builtin.get_url:
+    url: https://ohmyposh.dev/install.sh
+    dest: /tmp/ohmyposh-install.sh
+    mode: '0755'
+
+- name: Install Oh My Posh
+  ansible.builtin.shell:
+    cmd: "bash -c /tmp/ohmyposh-install.sh"
+
+- name: Add Oh My Posh to .bashrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    line: 'eval "$(oh-my-posh init bash)"'
+    state: present
+    create: true
+    owner: "{{ ansible_user }}"
